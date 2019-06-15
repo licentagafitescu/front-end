@@ -11,7 +11,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class ImageServiceService {
+export class ImageService {
 
   constructor(private http: HttpClient) { }
 
@@ -20,5 +20,4 @@ export class ImageServiceService {
   public postImage(image){
     return this.http.post<any>(this.url, image, httpOptions).toPromise();
   }
-  
 }

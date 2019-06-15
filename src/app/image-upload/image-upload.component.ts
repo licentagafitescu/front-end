@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageServiceService } from '../image-service.service'
+import { ImageService } from '../image.service'
+import {AuthService} from '../auth.service'
 
 @Component({
   selector: 'app-image-upload',
@@ -8,7 +9,7 @@ import { ImageServiceService } from '../image-service.service'
 })
 export class ImageUploadComponent implements OnInit {
 
-  constructor(private imageService: ImageServiceService) { }
+  constructor(private imageService: ImageService, private authService: AuthService) { }
 
   imagePath: string;
   imageUrl: any;
@@ -44,7 +45,7 @@ export class ImageUploadComponent implements OnInit {
   async upload() {
     this.loading = true;
     let user:string;
-    user = localStorage.getItem("user");
+    user = this.authService.getUser();
     this.result = await this.imageService.postImage({ user: user, name: this.imagePath, file: this.image, option: this.selectedOption });
     this.result = JSON.parse(this.result);
     console.log(this.result);
