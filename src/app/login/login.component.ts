@@ -16,9 +16,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.paramMap.get("id");
-    console.log("aaa");
     this.authService.login(this.user);
+
     this.router.navigate(["/upload"]);
   }
+
 
 }

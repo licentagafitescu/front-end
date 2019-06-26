@@ -1,31 +1,78 @@
-<input [hidden]="true" #file id="file-upload" type="file" accept='image/*' (change)="preview(file)" />
-<label for="file-upload" mat-raised-button color="primary">Choose Files</label>
-<img [src]="imageUrl" height="200" *ngIf="imageUrl">
-<br>
-<mat-radio-group [(ngModel)]="selectedOption">
-  <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option">
-    {{option}}
-  </mat-radio-button>
-</mat-radio-group>
-<button mat-raised-button color="primary" (click)="upload()" style="margin-left:1rem;">Upload</button>
+<nav>
+  <div class="container">
+    <a href="index.html" class="item logo">FlickrCloneFetch</a>
 
-<mat-spinner *ngIf="loading"></mat-spinner>
-
-<section *ngIf="result">
-  Labels for this image:
-  <div *ngIf="result.labels.length == 0">
-      Could not find labels for the image.
-  </div>
-  <ul>
-    <li *ngFor="let label of result.labels">
-      {{label}}
-    </li>
-  </ul>
-  Similar images from Flickr:
-  <div *ngIf="result.images.length == 0">
-        Could not find similar images.
+    <div tabindex="4" id="usermenu" class="item right">
+      <img class="user-image-small" alt="user image" [src]=profile_picture>
+      {{name}} &nbsp;&#9662;
+      <div class="submenu">
+        <a (click)="logout" class="item">Log out</a>
+      </div>
     </div>
-  <mat-card *ngFor="let image of result.images" class="example-card" >
-    <img mat-card-image [src]=image>
-  </mat-card>
-</section>
+  </div>
+</nav>
+
+<div class="container description container_page">
+  <div class="box ">
+    <div class="flexcontainer">
+      <h1 style="width: 100%;text-align: center;"> Upload your photo </h1>
+      <div class="flexitem">
+        <input [hidden]="true" #file id="file-upload" type="file" accept='image/*' (change)="preview(file)" />
+        <label for="file-upload" class="button">Choose Files</label>
+      </div>
+      <div class="flexitem " *ngIf="imageUrl">
+        <img [src]="imageUrl" class="image_analyzed">
+      </div>
+      <div class="flexitem">
+        <p>Choose the source of the images to be analyzed:</p>
+        <mat-radio-group [(ngModel)]="selectedOption" class = "tp-radio-group">
+          <mat-radio-button class="example-radio-button" class = "tp-radio-button"s *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="flexitem">
+        <button class="button" (click)="upload()" style="margin-left:1rem;">Upload</button>
+      </div>
+
+      <div class="flexitem">
+        <mat-spinner *ngIf="loading"></mat-spinner>
+      </div>
+
+      <div class="flexitem" *ngIf="result">
+        Labels for this image:
+        <div *ngIf="result.labels.length == 0">
+          Could not find labels for the image.
+        </div>
+        <ul>
+          <li *ngFor="let label of result.labels">
+            {{label}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container container-similar" *ngIf="result">
+    <div class="box ">
+      <div class="flexcontainer">
+        <div class="flexitem">
+            <h1 style="width: 100%;text-align: center;"> Similar images from Flickr: </h1>
+        </div>
+        <div class="flexitem" *ngIf="result.images.length == 0">
+          Could not find similar images.
+        </div>
+
+      </div>
+    
+
+    <div class="flex-container " *ngIf="result">
+      <div class="box image-box" *ngFor="let image of result.images">
+        <img class="course-image" [src]=image>
+      </div>
+    </div>
+  </div>
+
+  </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../image.service'
 import {AuthService} from '../auth.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-image-upload',
@@ -9,7 +10,7 @@ import {AuthService} from '../auth.service'
 })
 export class ImageUploadComponent implements OnInit {
 
-  constructor(private imageService: ImageService, private authService: AuthService) { }
+  constructor(private imageService: ImageService, private authService: AuthService, private router: Router,) { }
 
   imagePath: string;
   imageUrl: any;
@@ -19,8 +20,12 @@ export class ImageUploadComponent implements OnInit {
   result: any;
   selectedOption: string  = 'Profile';
   options: string[] = ['Profile', 'Contacts','Public'];
+  name: string ;
+  profile_picture:string;
 
   ngOnInit() {
+    this.getProfile();
+    
   }
 
   preview(file) {
@@ -40,6 +45,19 @@ export class ImageUploadComponent implements OnInit {
 
     }
   }
+  logout(){
+    this.authService.logout();
+    this.router.navigate(["/home"]);
+  }
+
+  async getProfile(){
+    let result =   await this.authService.getProfile();
+    this.authService.saveProfile(result);
+    this.name = this.authService.getName();
+    this.profile_picture = this.authService.getImage();
+    console.log(this.profile_picture);
+
+  }
 
 
   async upload() {
@@ -48,7 +66,6 @@ export class ImageUploadComponent implements OnInit {
     user = this.authService.getUser();
     this.result = await this.imageService.postImage({ user: user, name: this.imagePath, file: this.image, option: this.selectedOption });
     this.result = JSON.parse(this.result);
-    console.log(this.result);
     this.loading = false;
   }
 }
